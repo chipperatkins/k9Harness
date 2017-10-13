@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,54 +35,47 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // create a dog
-        Map<String, Object> dog = new HashMap<String, Object>();
-        ArrayList<String> sessions = new ArrayList<String>();
-        dog.put("name", "Chester");
-        dog.put("hrThreshhold", 80);
-        dog.put("rrThreshhold", 99);
-        dog.put("ctThreshhold", 103);
-        dog.put("atThreshhold", null);
-        dog.put("sessions", sessions);
+        Dog dog = new Dog("chipper");
+        dog.ambientTempThreshold = 88.0;
+        dog.coreTempThreshold = 102.0;
+        dog.respiratoryRateThreshold = 7.0;
+        dog.heartRateThreshold = 98.0;
 
-        // create a session
-        Date now = new Date();
-        String nowString = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now);
+        Session session = new Session("chipper");
 
-        Map<String, Double> heartRate = new HashMap<String, Double>();
-        heartRate.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 88.0);
-        heartRate.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 89.0);
-        heartRate.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 88.5);
-        heartRate.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 84.0);
+        HashMap<String, Object> sessionDoc = new HashMap<>();
+        sessionDoc.put("session", session);
 
-        Map<String, Double> coreTemp = new HashMap<String, Double>();
-        coreTemp.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 88.0);
-        coreTemp.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 89.0);
-        coreTemp.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 88.5);
-        coreTemp.put(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now), 84.0);
+        HashMap<String, Object> dogDoc = new HashMap<>();
+        dogDoc.put(dog.name, dog);
 
-        // etc. do this for RR and AT as well
-
-        Map<String, Object> docContent = new HashMap<String, Object>();
-        docContent.put("date", DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(now));
-        docContent.put("endTime", null);
-        docContent.put("heartRate", heartRate);
-        docContent.put("coreTemp", coreTemp);
+        HashMap<String, Object> dogSessions = new HashMap<>();
 
         CbDatabase db = null;
-        String docId = null;
+        String sessionId = null;
+        String dogId = null;
+        String dogSessionsId = null;
 
         try {
             db = new CbDatabase("testdb", getApplicationContext());
 
-            docId = db.create(docContent);
-            sessions.add(docId);
-            String dogId = db.create(dog);
+            sessionId = db.create(sessionDoc);
+            dogId = db.create(dogDoc);
+
+            ArrayList<String> sessionList = new ArrayList<>();
+            sessionList.add(sessionId);
+            dogSessions.put("chipper", sessionList);
+            dogSessionsId = db.create(dogSessions);
         }
         catch (Exception e) {
             // handle here...
         }
 
-        Map<String, Object> hm = db.retrieve(docId);
+        Map<String, Object> chipper = db.retrieve(dogId);
+        Dog testDog = Dog.toDog((Map<String, Object>) chipper.get("chipper"));
+        Object sessionIds = db.retrieve(dogSessionsId);
+        Object sessionObj = db.retrieve(sessionId);
+        String name = testDog.name;
     }
 
     @Override
