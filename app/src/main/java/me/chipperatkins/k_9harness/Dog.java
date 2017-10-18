@@ -1,6 +1,8 @@
 package me.chipperatkins.k_9harness;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,6 +15,7 @@ public class Dog {
     public Double respiratoryRateThreshold;
     public Double coreTempThreshold;
     public Double ambientTempThreshold;
+    public ArrayList<String> sessions;
 
     // Constructor
     public Dog(String nname) {
@@ -21,6 +24,7 @@ public class Dog {
         respiratoryRateThreshold = null;
         coreTempThreshold = null;
         ambientTempThreshold = null;
+        sessions = new ArrayList<>();
     }
 
     // Checks for given heartRate cur over threshold
@@ -50,7 +54,21 @@ public class Dog {
         dog.respiratoryRateThreshold = (Double) map.get("respiratoryRateThreshold");
         dog.coreTempThreshold = (Double) map.get("coreTempThreshold");
         dog.ambientTempThreshold = (Double) map.get("ambientTempThreshold");
+        dog.sessions = (ArrayList<String>) map.get("sessions");
 
         return dog;
+    }
+
+    // Converts to Map from Dog
+    public static LinkedHashMap<String, Object> fromDog(Dog dog) {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        map.put("name", dog.name);
+        map.put("heartRateThreshold", dog.heartRateThreshold);
+        map.put("respiratoryRateThreshold", dog.respiratoryRateThreshold);
+        map.put("coreTempThreshold", dog.coreTempThreshold);
+        map.put("ambientTempThreshold", dog.ambientTempThreshold);
+        map.put("sessions", dog.sessions);
+
+        return map;
     }
 }

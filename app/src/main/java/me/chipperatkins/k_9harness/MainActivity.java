@@ -41,41 +41,22 @@ public class MainActivity extends AppCompatActivity {
         dog.respiratoryRateThreshold = 7.0;
         dog.heartRateThreshold = 98.0;
 
+        // store a dog
+        StorageHandler storageHandler = new StorageHandler(getApplicationContext());
+        storageHandler.storeDog(dog);
+
+        // create a session
         Session session = new Session("chipper");
 
-        HashMap<String, Object> sessionDoc = new HashMap<>();
-        sessionDoc.put("session", session);
+        // store a session
+        storageHandler.storeSessionAndUpdateDog(session);
 
-        HashMap<String, Object> dogDoc = new HashMap<>();
-        dogDoc.put(dog.name, dog);
+        // retrieve updated dog
+        Dog testDog = storageHandler.retrieveDog(dog.name);
 
-        HashMap<String, Object> dogSessions = new HashMap<>();
-
-        CbDatabase db = null;
-        String sessionId = null;
-        String dogId = null;
-        String dogSessionsId = null;
-
-        try {
-            db = new CbDatabase("testdb", getApplicationContext());
-
-            sessionId = db.create(sessionDoc);
-            dogId = db.create(dogDoc);
-
-            ArrayList<String> sessionList = new ArrayList<>();
-            sessionList.add(sessionId);
-            dogSessions.put("chipper", sessionList);
-            dogSessionsId = db.create(dogSessions);
-        }
-        catch (Exception e) {
-            // handle here...
-        }
-
-        Map<String, Object> chipper = db.retrieve(dogId);
-        Dog testDog = Dog.toDog((Map<String, Object>) chipper.get("chipper"));
-        Object sessionIds = db.retrieve(dogSessionsId);
-        Object sessionObj = db.retrieve(sessionId);
-        String name = testDog.name;
+        // retrieve dog's session
+        String sessionId = testDog.sessions.get(0);
+        Session testSession = storageHandler.retrieveSession(sessionId);
     }
 
     @Override
