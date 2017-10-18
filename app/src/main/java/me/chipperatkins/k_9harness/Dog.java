@@ -11,14 +11,14 @@ import java.util.Map;
 
 public class Dog {
     public String name;
-    public Double heartRateThreshold;
-    public Double respiratoryRateThreshold;
-    public Double coreTempThreshold;
-    public Double ambientTempThreshold;
-    public ArrayList<String> sessions;
+    Double heartRateThreshold;
+    Double respiratoryRateThreshold;
+    Double coreTempThreshold;
+    Double ambientTempThreshold;
+    ArrayList<String> sessions;
 
     // Constructor
-    public Dog(String nname) {
+    Dog(String nname) {
         name = nname;
         heartRateThreshold = null;
         respiratoryRateThreshold = null;
@@ -28,27 +28,27 @@ public class Dog {
     }
 
     // Checks for given heartRate cur over threshold
-    public boolean isOverHeartRateThreshold (double cur) {
+    boolean isOverHeartRateThreshold (double cur) {
         return (cur > heartRateThreshold);
     }
 
     // Check for given respiratory rate cur over threshold
-    public boolean isOverRespiratoryRateThreshold(double cur) {
+    boolean isOverRespiratoryRateThreshold(double cur) {
         return (cur > respiratoryRateThreshold);
     }
 
     // Check for given core temp cur over threshold
-    public boolean isOverCoreTempThreshold (double cur) {
+    boolean isOverCoreTempThreshold (double cur) {
         return (cur > coreTempThreshold);
     }
 
     // Check for given ambient temp cur over threshold
-    public boolean isOverAmbientTempThreshold (double cur) {
+    boolean isOverAmbientTempThreshold (double cur) {
         return (cur > ambientTempThreshold);
     }
 
     // Converts Map to Dog Object
-    public static Dog toDog(Map<String, Object> map) {
+    static Dog toDog(Map<String, Object> map) {
         Dog dog = new Dog((String) map.get("name"));
         dog.heartRateThreshold = (Double) map.get("heartRateThreshold");
         dog.respiratoryRateThreshold = (Double) map.get("respiratoryRateThreshold");
@@ -60,7 +60,7 @@ public class Dog {
     }
 
     // Converts to Map from Dog
-    public static LinkedHashMap<String, Object> fromDog(Dog dog) {
+    static LinkedHashMap<String, Object> fromDog(Dog dog) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("name", dog.name);
         map.put("heartRateThreshold", dog.heartRateThreshold);

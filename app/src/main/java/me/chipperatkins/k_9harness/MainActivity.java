@@ -1,6 +1,7 @@
 package me.chipperatkins.k_9harness;
 
 import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -57,6 +58,18 @@ public class MainActivity extends AppCompatActivity {
         // retrieve dog's session
         String sessionId = testDog.sessions.get(0);
         Session testSession = storageHandler.retrieveSession(sessionId);
+
+        // add a heart rate value
+        storageHandler.updateHeartRate(testSession, new Date(), 88.0);
+
+        // test updating dog's hr threshold
+        storageHandler.updateHeartRateThreshold(dog, 79.);
+
+        // end session
+        storageHandler.endSession(testSession);
+
+        testSession = storageHandler.retrieveSession(new SimpleDateFormat("MM/dd/yyyy HH:mm").format(testSession.startDate));
+        String c = "c";
     }
 
     @Override

@@ -8,8 +8,8 @@ import java.util.Map;
  * Created by patrickatkins on 10/10/17.
  */
 
-public class Session {
-    private Date startDate;
+class Session {
+    Date startDate;
     private Date endTime;
     private String dog;
 
@@ -18,7 +18,7 @@ public class Session {
     private Map<String, Double> coreTemp;
     private Map<String, Double> ambientTemp;
 
-    public Session(String dogg) {
+    Session(String dogg) {
         startDate = new Date();
         endTime = null;
         dog = dogg;
@@ -29,32 +29,37 @@ public class Session {
         ambientTemp = new LinkedHashMap<>();
     }
 
-    public boolean isActive() {
+    boolean isActive() {
         return (endTime == null);
     }
 
     // Adds value to heart rate map
-    public void addHeartRate(String time, Double value) {
+    void addHeartRate(String time, Double value) {
         heartRate.put(time, value);
     }
 
     // Adds value to respiratory rate map
-    public void addRespiratoryRate(String time, Double value) {
+    void addRespiratoryRate(String time, Double value) {
         respiratoryRate.put(time, value);
     }
 
     // Adds value to coreTemp map
-    public void addCoreTemp(String time, Double value) {
+    void addCoreTemp(String time, Double value) {
         coreTemp.put(time, value);
     }
 
     // Adds value to ambientTemp map
-    public void addAmbientTemp(String time, Double value) {
+    void addAmbientTemp(String time, Double value) {
         ambientTemp.put(time, value);
     }
 
+    // ends session
+    static void endSession(Session session) {
+        session.endTime = new Date();
+    }
+
     // Converts Java Type Session class to Map
-    public static LinkedHashMap<String, Object> fromSession (Session session) {
+    static LinkedHashMap<String, Object> fromSession (Session session) {
         LinkedHashMap<String, Object> sessionMap = new LinkedHashMap<>();
         sessionMap.put("startDate", session.startDate);
         sessionMap.put("endTime", session.endTime);
@@ -68,7 +73,7 @@ public class Session {
     }
 
     // Converts map to Java Class Type Session
-    public static Session toSession(Map<String, Object> map) {
+    static Session toSession(Map<String, Object> map) {
         Session session = new Session((String) map.get("dogName"));
         session.startDate = (Date) map.get("startDate");
         session.endTime = (Date) map.get("endTime");

@@ -17,12 +17,12 @@ import java.util.Map;
  */
 
 /** Database Wrapper **/
-public class CbDatabase {
+class CbDatabase {
     private Database database;
     private Manager manager;
 
     /** Ctor Setup **/
-    public CbDatabase(String dname, Context ctx) throws IOException, CouchbaseLiteException {
+    CbDatabase(String dname, Context ctx) throws IOException, CouchbaseLiteException {
 
         // 1. use fefault settings for now (read/write access)
         manager = new Manager(new AndroidContext(ctx), Manager.DEFAULT_OPTIONS);
@@ -39,14 +39,14 @@ public class CbDatabase {
         database = manager.getDatabase(dname);
     }
 
-    public void close() {
+    void close() {
         if (manager != null) {
             manager.close();
         }
     }
 
     /** C-rud */
-    public String create( Map<String, Object> docContent) throws CouchbaseLiteException {
+    String create(Map<String, Object> docContent) throws CouchbaseLiteException {
 
         // create an empty document
         Document doc = database.createDocument();
@@ -57,12 +57,12 @@ public class CbDatabase {
     }
 
     /** c-R-ud */
-    public Map<String, Object> retrieve(String docId) {
+    Map<String, Object> retrieve(String docId) {
         return database.getDocument(docId).getProperties();
     }
 
     /** cr-U-d (auto-retry) */
-    public void update(final String key, final Object value, String docId)
+    void update(final String key, final Object value, String docId)
             throws CouchbaseLiteException {
 
         //retrieve document from the database
