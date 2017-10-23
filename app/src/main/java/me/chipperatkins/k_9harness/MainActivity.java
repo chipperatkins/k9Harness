@@ -1,5 +1,6 @@
 package me.chipperatkins.k_9harness;
 
+import android.content.Intent;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
@@ -52,23 +53,13 @@ public class MainActivity extends AppCompatActivity {
         // store a session
         storageHandler.storeSessionAndUpdateDog(session);
 
-        // retrieve updated dog
+        Intent intent = new Intent(getApplicationContext(), DbUodateService.class);
+
+        this.startService(intent);
+
         Dog testDog = storageHandler.retrieveDog(dog.name);
-
-        // retrieve dog's session
-        String sessionId = testDog.sessions.get(0);
+        String sessionId = testDog.sessions.get(testDog.sessions.size() - 1);
         Session testSession = storageHandler.retrieveSession(sessionId);
-
-        // add a heart rate value
-        storageHandler.updateHeartRate(testSession, new Date(), 88.0);
-
-        // test updating dog's hr threshold
-        storageHandler.updateHeartRateThreshold(dog, 79.);
-
-        // end session
-        storageHandler.endSession(testSession);
-
-        testSession = storageHandler.retrieveSession(new SimpleDateFormat("MM/dd/yyyy HH:mm").format(testSession.startDate));
         String c = "c";
     }
 

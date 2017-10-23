@@ -14,16 +14,16 @@ import java.util.Map;
 // Handles Storage Functions needed by the app to interface with the Db wrapper
 class StorageHandler {
     // list of dogs keyed by name
-    private String dogDocumentId;
+    private static String dogDocumentId;
 
     // list of sessions
-    private String sessionDocumentId;
+    private static String sessionDocumentId;
 
     // format for session date keys
-    private final DateFormat dateFormat;
+    private static DateFormat dateFormat;
 
     // db object
-    private CbDatabase database;
+    private static CbDatabase database;
 
     StorageHandler(android.content.Context ctx) {
         LinkedHashMap<String, Object> dogDocument = new LinkedHashMap<>();
@@ -40,6 +40,8 @@ class StorageHandler {
             // handle here
         }
     }
+
+    StorageHandler() {}
 
     // stores dog as a sub-map into the dogDocument
     void storeDog(Dog dog) {
