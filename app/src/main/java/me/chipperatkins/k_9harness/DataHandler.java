@@ -4,10 +4,10 @@ package me.chipperatkins.k_9harness;
  * Created by patrickatkins on 10/24/17.
  */
 
-public class DataHandler {
+class DataHandler {
 
     /* Convert ADC value to degrees Fahrenheit */
-    public static double convertTemp(double rawValue) {
+    static double convertTemp(double rawValue) {
         double temp = 1023.0 / rawValue - 1.0;
         temp = 10000.0 / temp;
         double steinhart = temp / 10000.0;
@@ -20,7 +20,7 @@ public class DataHandler {
     }
 
     /* Calculate core tempurature from the abdominal, ambient, and chest temperatures */
-    public static int calculateCoreTemp(double abdominal, double ambient, double chest, double avgAmbient) {
+    static int calculateCoreTemp(double abdominal, double ambient, double chest, double avgAmbient) {
         double C = 1;
         double Ka = (0.01203) * avgAmbient + -0.77285;
         double Kb = (0.05661) * avgAmbient + -3.60028;

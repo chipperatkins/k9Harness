@@ -11,7 +11,7 @@ import java.util.Map;
 class Session {
     Date startDate;
     private Date endTime;
-    private String dog;
+    private final String dog;
 
     private Map<String, Double> heartRate;
     private Map<String, Double> respiratoryRate;

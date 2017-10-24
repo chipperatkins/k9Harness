@@ -1,17 +1,11 @@
 package me.chipperatkins.k_9harness;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by patrickatkins on 10/23/17.

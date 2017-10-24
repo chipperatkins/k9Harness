@@ -1,6 +1,5 @@
 package me.chipperatkins.k_9harness;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,8 +8,8 @@ import java.util.Map;
  * Created by patrickatkins on 10/10/17.
  */
 
-public class Dog {
-    public String name;
+class Dog {
+    public final String name;
     Double heartRateThreshold;
     Double respiratoryRateThreshold;
     Double coreTempThreshold;
