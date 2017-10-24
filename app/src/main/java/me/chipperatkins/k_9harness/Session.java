@@ -16,7 +16,8 @@ class Session {
     private Map<String, Double> heartRate;
     private Map<String, Double> respiratoryRate;
     private Map<String, Double> coreTemp;
-    private Map<String, Double> ambientTemp;
+    private Map<String, Double> abdominalTemp;
+    Map<String, Double> ambientTemp;
 
     Session(String dogg) {
         startDate = new Date();
@@ -26,6 +27,7 @@ class Session {
         heartRate = new LinkedHashMap<>();
         respiratoryRate = new LinkedHashMap<>();
         coreTemp = new LinkedHashMap<>();
+        abdominalTemp = new LinkedHashMap<>();
         ambientTemp = new LinkedHashMap<>();
     }
 
@@ -53,6 +55,9 @@ class Session {
         ambientTemp.put(time, value);
     }
 
+    // Adds value to abdominalTemp map
+    void addAbdominalTemp(String time, Double value) { ambientTemp.put(time, value); }
+
     // ends session
     static void endSession(Session session) {
         session.endTime = new Date();
@@ -67,6 +72,7 @@ class Session {
         sessionMap.put("heartRate", session.heartRate);
         sessionMap.put("respiratoryRate", session.respiratoryRate);
         sessionMap.put("coreTemp", session.coreTemp);
+        sessionMap.put("abdominalTemp", session.abdominalTemp);
         sessionMap.put("ambientTemp", session.ambientTemp);
 
         return sessionMap;
@@ -80,6 +86,7 @@ class Session {
         session.heartRate = (Map<String, Double>) map.get("heartRate");
         session.respiratoryRate = (Map<String, Double>) map.get("respiratoryRate");
         session.coreTemp = (Map<String, Double>) map.get("coreTemp");
+        session.abdominalTemp = (Map<String, Double>) map.get("abdominalTemp");
         session.ambientTemp = (Map<String, Double>) map.get("ambientTemp");
 
         return session;

@@ -14,7 +14,7 @@ public class Dog {
     Double heartRateThreshold;
     Double respiratoryRateThreshold;
     Double coreTempThreshold;
-    Double ambientTempThreshold;
+    Double abdominalTempThreshold;
     ArrayList<String> sessions;
 
     // Constructor
@@ -23,7 +23,7 @@ public class Dog {
         heartRateThreshold = null;
         respiratoryRateThreshold = null;
         coreTempThreshold = null;
-        ambientTempThreshold = null;
+        abdominalTempThreshold = null;
         sessions = new ArrayList<>();
     }
 
@@ -43,8 +43,8 @@ public class Dog {
     }
 
     // Check for given ambient temp cur over threshold
-    boolean isOverAmbientTempThreshold (double cur) {
-        return (cur > ambientTempThreshold);
+    boolean isOverAbdominalTempThreshold (double cur) {
+        return (cur > abdominalTempThreshold);
     }
 
     // Converts Map to Dog Object
@@ -53,7 +53,7 @@ public class Dog {
         dog.heartRateThreshold = (Double) map.get("heartRateThreshold");
         dog.respiratoryRateThreshold = (Double) map.get("respiratoryRateThreshold");
         dog.coreTempThreshold = (Double) map.get("coreTempThreshold");
-        dog.ambientTempThreshold = (Double) map.get("ambientTempThreshold");
+        dog.abdominalTempThreshold = (Double) map.get("abdominalTempThreshold");
         dog.sessions = (ArrayList<String>) map.get("sessions");
 
         return dog;
@@ -66,7 +66,7 @@ public class Dog {
         map.put("heartRateThreshold", dog.heartRateThreshold);
         map.put("respiratoryRateThreshold", dog.respiratoryRateThreshold);
         map.put("coreTempThreshold", dog.coreTempThreshold);
-        map.put("ambientTempThreshold", dog.ambientTempThreshold);
+        map.put("abdominalTempThreshold", dog.abdominalTempThreshold);
         map.put("sessions", dog.sessions);
 
         return map;

@@ -105,7 +105,7 @@ class StorageHandler {
         }
     }
 
-    // update dog ambient temp threshold
+    // update dog abdominal temp threshold
     void updateAmbientTempThreshold (Dog dog, Double value) {
         // get dog
         Map<String, Object> dogDocument = database.retrieve(dogDocumentId);
@@ -113,7 +113,7 @@ class StorageHandler {
 
         // update dog
         Dog d = Dog.toDog(dogMap);
-        d.ambientTempThreshold = value;
+        d.abdominalTempThreshold = value;
 
         // update session in db
         try {
@@ -257,6 +257,26 @@ class StorageHandler {
         // update session
         Session ses = Session.toSession(sessionMap);
         ses.addAmbientTemp(dateFormat.format(date), value);
+
+        // update session in db
+        try {
+            database.update(sessionId, Session.fromSession(ses), sessionDocumentId);
+        }
+        catch (Exception e) {
+            // handle here
+        }
+    }
+
+    // update session abdominal temp
+    void updateAbdominalTemp (Session session, Date date, Double value) {
+        // get session
+        String sessionId = dateFormat.format(session.startDate);
+        Map<String, Object> sessionDocument = database.retrieve(sessionDocumentId);
+        Map sessionMap = (Map) sessionDocument.get(sessionId);
+
+        // update session
+        Session ses = Session.toSession(sessionMap);
+        ses.addAbdominalTemp(dateFormat.format(date), value);
 
         // update session in db
         try {

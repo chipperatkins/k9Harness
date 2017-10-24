@@ -21,7 +21,7 @@
         </activity>
         
         <service
-            android:name=".DbUodateService"
+            android:name=".DbUpdateService"
             android:exported="false"/>
     </application>
 

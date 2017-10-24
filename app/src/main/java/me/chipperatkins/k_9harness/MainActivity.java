@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         // create a dog
         Dog dog = new Dog("chipper");
-        dog.ambientTempThreshold = 88.0;
+        dog.abdominalTempThreshold = 88.0;
         dog.coreTempThreshold = 102.0;
         dog.respiratoryRateThreshold = 7.0;
         dog.heartRateThreshold = 98.0;
@@ -53,14 +53,9 @@ public class MainActivity extends AppCompatActivity {
         // store a session
         storageHandler.storeSessionAndUpdateDog(session);
 
-        Intent intent = new Intent(getApplicationContext(), DbUodateService.class);
+        Intent intent = new Intent(getApplicationContext(), DbUpdateService.class);
 
         this.startService(intent);
-
-        Dog testDog = storageHandler.retrieveDog(dog.name);
-        String sessionId = testDog.sessions.get(testDog.sessions.size() - 1);
-        Session testSession = storageHandler.retrieveSession(sessionId);
-        String c = "c";
     }
 
     @Override
