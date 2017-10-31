@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         if(getSupportActionBar() != null)
         {
             getSupportActionBar().setTitle("Dog Name");
+
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToGraph(View view){
         Log.d("GO_TO_GRAPH", "button pressed");
-        Intent intent = new Intent(MainActivity.this, GraphActivity.class);
+        Intent intent = new Intent(MainActivity.this, MainGraphActivity.class);
         String buttonTag = view.getTag().toString();
         int startPage = 0;
         if(buttonTag.equals("heart_rate"))

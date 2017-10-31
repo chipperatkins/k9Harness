@@ -25,7 +25,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 
-public class GraphActivity extends AppCompatActivity {
+public class MainGraphActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,7 +45,8 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph);
+        setContentView(R.layout.activity_main_graph);
+
 
 
 
@@ -89,7 +90,7 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_graph, menu);
+        getMenuInflater().inflate(R.menu.menu_main_graph, menu);
         return true;
     }
 
@@ -102,6 +103,8 @@ public class GraphActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainGraphActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -156,7 +159,7 @@ public class GraphActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
 
-            View rootView = inflater.inflate(R.layout.fragment_graph, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_main_graph, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getArguments().getString(ARG_SECTION_NAME));
 
@@ -168,6 +171,12 @@ public class GraphActivity extends AppCompatActivity {
                     new DataPoint(3, 2),
                     new DataPoint(4, 6)
             });
+
+            graph.getViewport().setScrollable(true);
+            graph.getViewport().setScrollableY(true);
+            graph.getViewport().setScalable(true);
+            graph.getViewport().setScalableY(true);
+
             graph.addSeries(series);
 
             return rootView;
