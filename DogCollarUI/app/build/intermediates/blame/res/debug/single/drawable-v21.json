@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\design_bottom_navigation_item_background.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\b5a1c42cf017806af5261bd1ea0d5a44c22692ed\\output\\res\\drawable-v21\\design_bottom_navigation_item_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\notification_action_background.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\f52a25b7c760bbf8244140a083bcb7d4d39d25fe\\output\\res\\drawable-v21\\notification_action_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\f52a25b7c760bbf8244140a083bcb7d4d39d25fe\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\avd_hide_password.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\b5a1c42cf017806af5261bd1ea0d5a44c22692ed\\output\\res\\drawable-v21\\avd_hide_password.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\f52a25b7c760bbf8244140a083bcb7d4d39d25fe\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\avd_show_password.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\b5a1c42cf017806af5261bd1ea0d5a44c22692ed\\output\\res\\drawable-v21\\avd_show_password.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\f52a25b7c760bbf8244140a083bcb7d4d39d25fe\\output\\res\\drawable-v21\\abc_edit_text_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Andrew\\Documents\\k9Harness\\DogCollarUI\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\design_password_eye.xml",
+        "source": "C:\\Users\\Andrew\\.android\\build-cache\\b5a1c42cf017806af5261bd1ea0d5a44c22692ed\\output\\res\\drawable-v21\\design_password_eye.xml"
+    }
+]
