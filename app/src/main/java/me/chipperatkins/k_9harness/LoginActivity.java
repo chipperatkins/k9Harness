@@ -2,6 +2,7 @@ package me.chipperatkins.k_9harness;
 
 import android.Manifest;
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -11,6 +12,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,8 +28,9 @@ import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final int REQUEST_ENABLE_BT=1;
     private static final String TAG = "LoginActivity";
+/*
+    private static final int REQUEST_ENABLE_BT=1;
     TextView btnOnOff;
     private ListView lvBtDevices;
     BluetoothAdapter mBluetoothAdapter;
@@ -35,7 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     public ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
     private Handler hand = new Handler();
     private BroadcastReceiver mReceiver = new MyReceiver(hand);
+*/
 
+/*
     // Create a BroadcastReceiver for ACTION_FOUND.
     public class MyReceiver extends BroadcastReceiver {
         private final Handler handler;
@@ -65,12 +70,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+*/
 
-    @Override
+    /*@Override
     protected void onDestroy() {
         super.onDestroy();
         this.unregisterReceiver(mReceiver);
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // initiatialize BT adapter, done button, view data button, refresh
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            Fragment fragment = new BluetoothFragment();
+            transaction.replace(R.id.sample_content_fragment, fragment);
+            transaction.commit();
+        }
+
+        /*// initiatialize BT adapter, done button, view data button, refresh
         // BT list button, bt listview, and dog listview
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         btnOnOff=(TextView)findViewById(R.id.btOnOff);
@@ -101,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.v(TAG, "BT already enabled");
                 beginListing();
             }
-        }
+        }*/
 
         // Create a list of dog profiles to login to
         // Connect to DB, find all dog profiles
@@ -110,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void updateList() {
+/*    private void updateList() {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1 , mBtDevices);
@@ -119,8 +132,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.v(TAG, arrayAdapter.getItem(i) + "\n");
         }
         lvBtDevices.setAdapter(arrayAdapter);
-    }
-
+    }*/
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v(TAG, "BT ActivityResult Returned");
@@ -151,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
 //    }
 
     private void beginListing(){
-        /* once BT has been enabled, populate the list of bluetooth devices*/
+        *//* once BT has been enabled, populate the list of bluetooth devices*//*
 
         // list all devices that the device has previously connected to
         this.addBoundDevices();
@@ -164,12 +177,7 @@ public class LoginActivity extends AppCompatActivity {
         //filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(mReceiver, filter);
 
-        // explicit permissions for android 6.0+
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-        }
+
 
         // by convention, always cancel discovery before beginning it
         mBluetoothAdapter.cancelDiscovery();
@@ -179,6 +187,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Could not search for other devices", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
 }

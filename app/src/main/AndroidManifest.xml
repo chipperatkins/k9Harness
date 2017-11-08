@@ -2,9 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.chipperatkins.k_9harness">
 
+    <uses-feature android:name="android.hardware.bluetooth" />
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
 
     <application
         android:allowBackup="true"
@@ -26,8 +30,10 @@
         <activity android:name=".LoginActivity" />
 
         <service
-            android:name=".BluetoothListService"
+            android:name=".BluetoothListenerService"
             android:exported="false" />
+
+        <activity android:name=".DeviceListActivity"></activity>
     </application>
 
 </manifest>

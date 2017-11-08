@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="connect_scan" type="id">Connect Scan</item>
+    <item name="discoverable" type="id">Discoverable</item>
+    <item name="sample_content_fragment" type="id">Content Fragment</item>
+</resources>
