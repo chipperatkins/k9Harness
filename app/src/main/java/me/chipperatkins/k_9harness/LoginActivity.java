@@ -17,7 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,54 +31,7 @@ import java.util.Set;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-/*
-    private static final int REQUEST_ENABLE_BT=1;
-    TextView btnOnOff;
-    private ListView lvBtDevices;
-    BluetoothAdapter mBluetoothAdapter;
-    public ArrayList<String> mBtDevices = new ArrayList<>();
-    public ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
-    private Handler hand = new Handler();
-    private BroadcastReceiver mReceiver = new MyReceiver(hand);
-*/
-
-/*
-    // Create a BroadcastReceiver for ACTION_FOUND.
-    public class MyReceiver extends BroadcastReceiver {
-        private final Handler handler;
-
-        public MyReceiver(Handler handler){
-            this.handler = handler;
-        }
-
-        public void onReceive(Context context, Intent intent){
-            String action = intent.getAction();
-//            Log.v(TAG, "onReceive is called" + action);
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                // Discovery has found a device. Get the BluetoothDevice
-                // object and its info from the Intent.
-                final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if(device.getName()!= null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
-                            discoveredDevices.add(device);
-                            mBtDevices.add(device.getName());
-                            updateList();
-                        }
-                    });
-                }
-            }
-        }
-    }
-*/
-
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.unregisterReceiver(mReceiver);
-    }*/
+    private ArrayAdapter<String> mDogArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Create a bluetooth fragment to connect to devices
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment fragment = new BluetoothFragment();
@@ -91,102 +47,106 @@ public class LoginActivity extends AppCompatActivity {
             transaction.commit();
         }
 
-        /*// initiatialize BT adapter, done button, view data button, refresh
-        // BT list button, bt listview, and dog listview
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        btnOnOff=(TextView)findViewById(R.id.btOnOff);
-        lvBtDevices = (ListView) findViewById(R.id.lvBtDevices);
-
-        // Create a list of BT devices to connect to
-        // Chcek if device is BT enabled, then enable if possible
-        if(mBluetoothAdapter==null) {
-            Toast.makeText(getApplicationContext(), "This device doesn't support Bluetooth.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-        else{
-            if(!mBluetoothAdapter.isEnabled()) {
-                Toast.makeText(getApplicationContext(), "Turning on Bluetooth.", Toast.LENGTH_SHORT).show();
-                Intent turnOnBt = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(turnOnBt, REQUEST_ENABLE_BT);
-            }
-            else {
-                Log.v(TAG, "BT already enabled");
-                beginListing();
-            }
-        }*/
-
         // Create a list of dog profiles to login to
         // Connect to DB, find all dog profiles
         // Adapt to listview by Name and Last Used fields
         // Allow selectable
 
-    }
-
-/*    private void updateList() {
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
-                (this, android.R.layout.simple_list_item_1 , mBtDevices);
-        Log.v(TAG, "BT DEVICES:");
-        for(int i=0;i<arrayAdapter.getCount();i++) {
-            Log.v(TAG, arrayAdapter.getItem(i) + "\n");
-        }
-        lvBtDevices.setAdapter(arrayAdapter);
-    }*/
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.v(TAG, "BT ActivityResult Returned");
-        if (requestCode == REQUEST_ENABLE_BT) {
-            Log.v(TAG, "BT Turn On Request Made");
-            if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(getApplicationContext(), "Bluetooth is now on.", Toast.LENGTH_SHORT).show();
-                beginListing();
-            } else {
-                Toast.makeText(getApplicationContext(), "Bluetooth failed to enable.", Toast.LENGTH_SHORT).show();
+        // Initialize the button to perform device discovery
+        Button skipButton = (Button) findViewById(R.id.button_continue);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
             }
-        }
-    }
+        });
 
-    protected void addBoundDevices(){
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
-                mBtDevices.add(device.getName());
-            }
-        }
-    }
+        // Initialize array adapters. One for already paired devices and
+        // one for newly discovered devices
+        ArrayAdapter<String> mDogArrayAdapter =
+                new ArrayAdapter<String>(this, R.layout.device_name);
 
-//    public void OnClick(View v){
-//
-//    }
+        this.mDogArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 
-    private void beginListing(){
-        *//* once BT has been enabled, populate the list of bluetooth devices*//*
+        // Find and set up the ListView for paired devices
+        ListView dogListView = (ListView) findViewById(R.id.devices);
+        dogListView.setAdapter(this.mDogArrayAdapter);
+        dogListView.setOnItemClickListener(mDogClickListener);
 
-        // list all devices that the device has previously connected to
-        this.addBoundDevices();
-        updateList();
+        // Find and set up the ListView for newly discovered devices
+        //ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
+        //deviceListView.setAdapter(mNewDevicesArrayAdapter);
+        //deviceListView.setOnItemClickListener(mDeviceClickListener);
 
-        // In case device hasn't previously been connected, beging the discovery process
-        // Register broadcast receiver to detect when a device is discovered.
+        // Register for broadcasts when a dog is returned
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        //filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-        //filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        registerReceiver(mReceiver, filter);
+        this.registerReceiver(mReceiver, filter);
 
+        // Register for broadcasts when discovery has finished
+        filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        this.registerReceiver(mReceiver, filter);
 
+        Set<Dogs> dogList = getDogList();
 
-        // by convention, always cancel discovery before beginning it
-        mBluetoothAdapter.cancelDiscovery();
-        // start discovery and output text to let the user know
-        if (mBluetoothAdapter.startDiscovery()) {
-            Toast.makeText(getApplicationContext(), "Discovering other devices", Toast.LENGTH_SHORT).show();
+        // If there are paired devices, add each one to the ArrayAdapter
+        if (dogList.size() > 0) {
+//            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
+            for (Dog dog : dogList) {
+                this.mDogArrayAdapter.add(dog.getName() + "\n" + dog.getLastSession());
+            }
         } else {
-            Toast.makeText(getApplicationContext(), "Could not search for other devices", Toast.LENGTH_SHORT).show();
+            String noDevices = getResources().getText(R.string.none_paired).toString();
+            this.mDogArrayAdapter.add(noDevices);
         }
-    }*/
+    }
 
+    /**
+     * The on-click listener for all dogs in the ListViews
+     */
+    private AdapterView.OnItemClickListener mDogClickListener
+            = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
+
+            // Get the dog name and it's most recent session time
+
+            
+            // Create the result Intent and include the MAC address
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+
+            // Set result and finish this Activity
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
+    };
+
+    /**
+     * The BroadcastReceiver that listens for discovered devices and changes the title when
+     * discovery is finished
+     */
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Get the BluetoothDevice object from the Intent
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                // If it's already paired, skip it, because it's been listed already
+                if (device.getBondState() != BluetoothDevice.BOND_BONDED && device.getName() != null) {
+                    mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                }
+                // When discovery is finished, change the Activity title
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+/*
+                setProgressBarIndeterminateVisibility(false);
+*/
+                setTitle(R.string.select_device);
+                if (mNewDevicesArrayAdapter.getCount() == 0) {
+                    String noDevices = getResources().getText(R.string.none_found).toString();
+                    mNewDevicesArrayAdapter.add(noDevices);
+                }
+            }
+        }
+    };
 }

@@ -17,18 +17,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+import java.util.Set;
 
 
 /**
@@ -42,6 +39,9 @@ public class BluetoothFragment extends Fragment {
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT=3;
+
+    // Flag to make sure only one device list begins
+    private boolean deviceListStarted=false;
 
     // Layout Views
     private ListView mConversationView;
@@ -59,12 +59,12 @@ public class BluetoothFragment extends Fragment {
     private BluetoothAdapter mBluetoothAdapter = null;
 
     /**
-     * Array adapter for the conversation thread
+     * Array adapter for the devices thread
      */
-    private ArrayAdapter<String> mConversationArrayAdapter;
+    private ArrayAdapter<String> mDeviceListArrayAdapter;
 
     /**
-     * Member object for the chat services
+     * Member object for the connection services
      */
     private BluetoothListenerService mListenerService = null;
 
@@ -115,10 +115,40 @@ public class BluetoothFragment extends Fragment {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the listener session
-        } else if (mListenerService == null) {
-            setupListener();
+        } else if(!this.harnessConnected()){
+            Log.d(TAG, "Request connect device insecure");
+            // Launch the DeviceListActivity to see devices and do scan
+            if(this.deviceListStarted == false ) {
+                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+                this.deviceListStarted = true;
+            }
+            if (mListenerService == null) {
+                setupListener();
+            }
         }
         Log.d(TAG, "Fragment started");
+    }
+
+    public boolean harnessConnected(){
+        // Checks all previously paired devices to see if they are harnesses
+        // NOTE: Does not determine if harness is currently connected
+        Set<BluetoothDevice> pairedDevices = this.mBluetoothAdapter.getBondedDevices();
+        for (BluetoothDevice device: pairedDevices) {
+            if(this.harnessName(device.getName())){
+                Log.d(TAG, "Device is bonded: " + device.getName());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean harnessName(String name) {
+        // Checks if device name matches naming convention for harnesses
+        if(name.length() >= 7 && Objects.equals(name.substring(0,6),"HARNESS") ){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -161,9 +191,9 @@ public class BluetoothFragment extends Fragment {
         Log.d(TAG, "setupListener()");
 
         // Initialize the array adapter for the listening thread
-        mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
+        mDeviceListArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
 
-        mConversationView.setAdapter(mConversationArrayAdapter);
+        mConversationView.setAdapter(mDeviceListArrayAdapter);
 
         // Initialize the send button with a listener that for click events
         mConnectButton.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +239,7 @@ public class BluetoothFragment extends Fragment {
                     switch (msg.arg1) {
                         case BluetoothListenerService.STATE_CONNECTED:
                             setStatus(getString(R.string.title_connected_to) + mConnectedDeviceName);
-                            mConversationArrayAdapter.clear();
+                            mDeviceListArrayAdapter.clear();
                             break;
                         case BluetoothListenerService.STATE_CONNECTING:
                             setStatus(R.string.title_connecting);
@@ -224,13 +254,13 @@ public class BluetoothFragment extends Fragment {
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    mDeviceListArrayAdapter.add("Me:  " + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                    mDeviceListArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -266,9 +296,15 @@ public class BluetoothFragment extends Fragment {
                 break;
             case REQUEST_ENABLE_BT:
                 // When the request to enable Bluetooth returns
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK && this.deviceListStarted == false) {
+                    Log.d(TAG, "ENABLED BT");
                     // Bluetooth is now enabled, so set up a chat session
-                    setupListener();
+                    Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
+                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+                    deviceListStarted = true;
+                    if (mListenerService == null) {
+                        setupListener();
+                    }
                 } else {
                     // User did not enable Bluetooth or an error occurred
                     Log.d(TAG, "BT not enabled");
@@ -279,25 +315,20 @@ public class BluetoothFragment extends Fragment {
         }
     }
 
-
-    // OptionsMenu will be removed - this is the default action for this screen
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Bluetooth listener
-        inflater.inflate(R.menu.bluetooth_listener, menu);
-    }
-
-    // OptionsMenu will be removed - this is the default action for this screen
+/*
+    // OptionsMenu has been removed - this is the default action for this screen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected");
         switch (item.getItemId()) {
-            /*case R.id.secure_connect_scan: {
+            */
+/*case R.id.secure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
                 Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
-            }*/
+            }*//*
+
             case R.id.connect_scan: {
                 Log.d(TAG, "Request connect device insecure");
                 // Launch the DeviceListActivity to see devices and do scan
@@ -305,15 +336,17 @@ public class BluetoothFragment extends Fragment {
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
                 return true;
             }
-            /* No need to be discoverable
+            */
+/* No need to be discoverable
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
                 ensureDiscoverable();
                 return true;
-            }*/
+            }*//*
         }
         return false;
     }
+*/
 
     /**
      * Establish connection with other device
