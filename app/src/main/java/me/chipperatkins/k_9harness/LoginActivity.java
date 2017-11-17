@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             transaction.commit();
         }
 
-        // Create a list of dog profiles to login to
+        /*// Create a list of dog profiles to login to
         // Connect to DB, find all dog profiles
         // Adapt to listview by Name and Last Used fields
         // Allow selectable
@@ -96,19 +96,19 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             String noDevices = getResources().getText(R.string.none_paired).toString();
             this.mDogArrayAdapter.add(noDevices);
-        }
+        }*/
     }
-
-    /**
+/*
+    *//**
      * The on-click listener for all dogs in the ListViews
-     */
+     *//*
     private AdapterView.OnItemClickListener mDogClickListener
             = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
 
             // Get the dog name and it's most recent session time
 
-            
+
             // Create the result Intent and include the MAC address
             Intent intent = new Intent();
             intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
@@ -119,10 +119,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    /**
+    *//**
      * The BroadcastReceiver that listens for discovered devices and changes the title when
      * discovery is finished
-     */
+     *//*
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -138,9 +138,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-/*
+*//*
                 setProgressBarIndeterminateVisibility(false);
-*/
+*//*
                 setTitle(R.string.select_device);
                 if (mNewDevicesArrayAdapter.getCount() == 0) {
                     String noDevices = getResources().getText(R.string.none_found).toString();
@@ -148,5 +148,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }
-    };
+    };*/
 }
