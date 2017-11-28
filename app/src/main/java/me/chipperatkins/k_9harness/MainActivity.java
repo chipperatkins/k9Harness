@@ -28,12 +28,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setTitle("Dog Name");
+
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Marked.", Snackbar.LENGTH_LONG)
+                        .setAction("Add a note?", new AddMemoListener()).show();
             }
         });
 
@@ -75,9 +81,29 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goToGraph(View view){
+        Log.d("GO_TO_GRAPH", "button pressed");
+        Intent intent = new Intent(MainActivity.this, MainGraphActivity.class);
+        String buttonTag = view.getTag().toString();
+        int startPage = 0;
+        if(buttonTag.equals("heart_rate"))
+            startPage = 0;
+        else if(buttonTag.equals("respiratory_rate"))
+            startPage = 1;
+        else if(buttonTag.equals("core_temperature"))
+            startPage = 2;
+        else if(buttonTag.equals("ambient_temperature"))
+            startPage = 3;
+        intent.putExtra("startPage", startPage);
+        startActivity(intent);
+
     }
 }
