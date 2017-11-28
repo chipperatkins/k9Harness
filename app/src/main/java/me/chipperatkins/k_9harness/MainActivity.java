@@ -8,10 +8,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
         // create a dog
         Dog dog = new Dog("chipper");
         dog.abdominalTempThreshold = 88.0;
@@ -56,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), DbUpdateService.class);
 
         this.startService(intent);
-    }
-
-    public void onLogin(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override
