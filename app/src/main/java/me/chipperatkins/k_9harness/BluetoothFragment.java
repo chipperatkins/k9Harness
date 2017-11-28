@@ -196,35 +196,23 @@ public class BluetoothFragment extends Fragment {
         mConversationView.setAdapter(mDeviceListArrayAdapter);
 
         // Initialize the send button with a listener that for click events
-        mConnectButton.setOnClickListener(new View.OnClickListener() {
+/*        mConnectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Send a message using content of the edit text widget
                 View view = getView();
                 if (null != view) {
-                   /* TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
+                   *//* TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
                     String message = textView.getText().toString();
-                    sendMessage(message);*/
+                    sendMessage(message);*//*
                 }
             }
-        });
+        });*/
 
         Log.d(TAG, "setupListener()- clickListener made");
         // Initialize the BluetoothListenerService to perform bluetooth connections
         mListenerService = new BluetoothListenerService(getActivity(), mHandler);
         Log.d(TAG, "setupListener() - btListenerService started");
     }
-
-    /**
-     * Makes this device discoverable for 300 seconds (5 minutes).
-     */
-/*    private void ensureDiscoverable() {
-        if (mBluetoothAdapter.getScanMode() !=
-                BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivity(discoverableIntent);
-        }
-    }*/
 
     /**
      * The Handler that gets information back from the BluetoothListenerService
@@ -315,38 +303,6 @@ public class BluetoothFragment extends Fragment {
         }
     }
 
-/*
-    // OptionsMenu has been removed - this is the default action for this screen
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected");
-        switch (item.getItemId()) {
-            */
-/*case R.id.secure_connect_scan: {
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-                return true;
-            }*//*
-
-            case R.id.connect_scan: {
-                Log.d(TAG, "Request connect device insecure");
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
-                return true;
-            }
-            */
-/* No need to be discoverable
-            case R.id.discoverable: {
-                // Ensure this device is discoverable by others
-                ensureDiscoverable();
-                return true;
-            }*//*
-        }
-        return false;
-    }
-*/
 
     /**
      * Establish connection with other device

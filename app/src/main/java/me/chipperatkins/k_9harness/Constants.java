@@ -1,13 +1,11 @@
 package me.chipperatkins.k_9harness;
 
 /**
- * Created by user on 11/6/2017.
+ * Created by patrickatkins on 10/24/17.
  */
 
-/**
- * Defines several constants used between {@link BluetoothListenerService} and the UI.
- */
 public interface Constants {
+    static final int VARIABLES_IN_PACKET = 5;
 
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;

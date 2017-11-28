@@ -1,6 +1,7 @@
 package me.chipperatkins.k_9harness;
 
 import android.app.IntentService;
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -30,8 +31,8 @@ public class BluetoothListenerService {
     // TODO: Choose proper UUID string
     private static final UUID MY_UUID_INSECURE = UUID.fromString("127c151f-6de5-4f0a-a418-25c091e3c7f0");
 
-    private final BluetoothAdapter mAdapter;
-    private final Handler mHandler;
+    private BluetoothAdapter mAdapter;
+    private Handler mHandler;
     //private AcceptThread mInsecureAcceptThread; -- not needed b/c phone won't behave as server
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;

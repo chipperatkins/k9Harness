@@ -1,6 +1,8 @@
 package me.chipperatkins.k_9harness;
 
 import android.content.Intent;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +36,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        // create a dog
+        Dog dog = new Dog("chipper");
+        dog.abdominalTempThreshold = 88.0;
+        dog.coreTempThreshold = 102.0;
+        dog.respiratoryRateThreshold = 7.0;
+        dog.heartRateThreshold = 98.0;
+
+        // store a dog
+        StorageHandler storageHandler = new StorageHandler(getApplicationContext());
+        storageHandler.storeDog(dog);
+
+        // create a session
+        Session session = new Session("chipper");
+
+        // store a session
+        storageHandler.storeSessionAndUpdateDog(session);
+
+        Intent intent = new Intent(getApplicationContext(), DbUpdateService.class);
+
+        this.startService(intent);
     }
 
     public void onLogin(View view) {

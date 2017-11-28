@@ -3,7 +3,6 @@
     package="me.chipperatkins.k_9harness">
 
     <uses-feature android:name="android.hardware.bluetooth" />
-
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -23,17 +22,19 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
 
-        <service
+        <!--<service
             android:name=".BluetoothListenerService"
             android:exported="false" />
-
+-->
         <activity android:name=".DeviceListActivity"></activity>
-    </application>
+        <service
+            android:name=".DbUpdateService"
+            android:exported="false"/>
 
+        </application>
 </manifest>

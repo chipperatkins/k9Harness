@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import java.util.Set;
 
-public class DeviceListActivity extends AppCompatActivity {
+public class DeviceListActivity extends Activity {
 
     /**
      * Tag for Log
@@ -97,7 +97,7 @@ public class DeviceListActivity extends AppCompatActivity {
         if (pairedDevices.size() > 0) {
 //            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
             for (BluetoothDevice device : pairedDevices) {
-                this.mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                this.mNewDevicesArrayAdapter.add(device.getName()/* + "\n" + device.getAddress()*/);
             }
         } else {
             String noDevices = getResources().getText(R.string.none_paired).toString();
@@ -181,7 +181,7 @@ public class DeviceListActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // If it's already paired, skip it, because it's been listed already
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED && device.getName() != null) {
-                    mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                    mNewDevicesArrayAdapter.add(device.getName()/* + "\n" + device.getAddress()*/);
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {

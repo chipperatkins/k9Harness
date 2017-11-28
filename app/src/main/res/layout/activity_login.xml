@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <FrameLayout
+        android:id="@+id/sample_content_fragment"
+        android:layout_width="0px"
+        android:layout_height="0px" />
+
     <ListView
         android:id="@+id/dog_list"
         android:layout_width="match_parent"
