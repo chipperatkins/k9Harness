@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.ViewParent;
 import android.widget.TextView;
 
 import android.content.Intent;
@@ -164,6 +166,16 @@ public class MainGraphActivity extends AppCompatActivity {
             textView.setText(getArguments().getString(ARG_SECTION_NAME));
 
             GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
+
+
+            graph.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    ViewParent parent = v.getParent();
+                    parent.requestDisallowInterceptTouchEvent(true);
+                    return v.onTouchEvent(event);
+                }
+            });
+
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                     new DataPoint(0, 1),
                     new DataPoint(1, 5),
@@ -178,6 +190,7 @@ public class MainGraphActivity extends AppCompatActivity {
             graph.getViewport().setScalableY(true);
 
             graph.addSeries(series);
+
 
             return rootView;
         }
