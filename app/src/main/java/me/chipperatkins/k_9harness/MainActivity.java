@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Add a note?", new AddMemoListener()).show();
             }
         });
+
+        updateUI();
 
         // create a dog
         Dog dog = new Dog("chipper");
@@ -105,5 +108,22 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("startPage", startPage);
         startActivity(intent);
 
+    }
+
+    public void updateUI() {
+        StorageHandler storageHandler = new StorageHandler();
+
+
+        Button heartRateButton = (Button) findViewById(R.id.heart_rate);
+        heartRateButton.setText("Heart Rate: 20");
+
+        Button respiratoryRateButton = (Button) findViewById(R.id.respiratory_rate);
+        respiratoryRateButton.setText("Respiratory Rate: 30");
+
+        Button coreTemperatureButton = (Button) findViewById(R.id.core_temperature);
+        coreTemperatureButton.setText("Core Temperature: 50");
+
+        Button ambientTemperatureButton = (Button) findViewById(R.id.ambient_temperature);
+        ambientTemperatureButton.setText("Ambient Temperature: 22");
     }
 }
