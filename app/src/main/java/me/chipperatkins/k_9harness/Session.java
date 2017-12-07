@@ -58,6 +58,7 @@ class Session {
     // Adds value to abdominalTemp map
     void addAbdominalTemp(String time, Double value) { ambientTemp.put(time, value); }
 
+
     // ends session
     static void endSession(Session session) {
         session.endTime = new Date();

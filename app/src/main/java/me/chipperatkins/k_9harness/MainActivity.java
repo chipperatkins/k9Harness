@@ -111,19 +111,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateUI() {
-        StorageHandler storageHandler = new StorageHandler();
+        StorageHandler storageHandler = new StorageHandler(getApplicationContext());
 
 
         Button heartRateButton = (Button) findViewById(R.id.heart_rate);
-        heartRateButton.setText("Heart Rate: 20");
+        heartRateButton.setText("Heart Rate:\n20");
 
         Button respiratoryRateButton = (Button) findViewById(R.id.respiratory_rate);
-        respiratoryRateButton.setText("Respiratory Rate: 30");
+        respiratoryRateButton.setText("Respiratory Rate:\n30");
 
         Button coreTemperatureButton = (Button) findViewById(R.id.core_temperature);
-        coreTemperatureButton.setText("Core Temperature: 50");
+        coreTemperatureButton.setText("Core Temperature:\n50");
 
         Button ambientTemperatureButton = (Button) findViewById(R.id.ambient_temperature);
-        ambientTemperatureButton.setText("Ambient Temperature: 22");
+        ambientTemperatureButton.setText("Ambient Temperature:\n22");
     }
 }

@@ -20,7 +20,9 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -120,6 +122,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+
+
+
+
     }
 
     /**
@@ -185,6 +191,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
+
+            ListPreference selectDogPref = (ListPreference) findPreference("dog_list");
+
+            StorageHandler storageHandler = new StorageHandler(getActivity().getApplicationContext());
+            //String[] x = new String[10];
+            //String[] dogs = storageHandler.retrieveAllDogs().keySet().toArray(x);
+            CharSequence[] dogs = new CharSequence[] {"Fido", "Spot", "Jake"};
+            selectDogPref.setEntries(dogs);
+            selectDogPref.setEntryValues(dogs);
+            selectDogPref.setDefaultValue("Fido");
+
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
@@ -192,7 +209,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference("dog_list"));
         }
 
         @Override
