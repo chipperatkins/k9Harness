@@ -192,7 +192,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
 
-            ListPreference selectDogPref = (ListPreference) findPreference("dog_list");
+            ListPreference selectDogPref = (ListPreference) findPreference("current_dog");
 
             StorageHandler storageHandler = new StorageHandler(getActivity().getApplicationContext());
             //String[] x = new String[10];
@@ -209,7 +209,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("dog_list"));
+            bindPreferenceSummaryToValue(findPreference("current_dog"));
         }
 
         @Override

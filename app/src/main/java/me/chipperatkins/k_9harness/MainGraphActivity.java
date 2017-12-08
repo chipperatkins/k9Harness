@@ -1,5 +1,7 @@
 package me.chipperatkins.k_9harness;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +52,7 @@ public class MainGraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_graph);
 
 
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +62,11 @@ public class MainGraphActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
             getSupportActionBar().setTitle("Dog Name");
+
+
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
+            }
         }
 
         // Create the adapter that will return a fragment for each of the three
@@ -87,7 +94,16 @@ public class MainGraphActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
 
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
