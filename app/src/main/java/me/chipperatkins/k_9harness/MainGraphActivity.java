@@ -183,6 +183,10 @@ public class MainGraphActivity extends AppCompatActivity {
 
             GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
 
+            graph.getViewport().setScrollable(true);
+            graph.getViewport().setScrollableY(true);
+            graph.getViewport().setScalable(true);
+            graph.getViewport().setScalableY(true);
 
             graph.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
@@ -192,24 +196,61 @@ public class MainGraphActivity extends AppCompatActivity {
                 }
             });
 
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                    new DataPoint(0, 1),
-                    new DataPoint(1, 5),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 2),
-                    new DataPoint(4, 6)
-            });
+            return rootView;
+        }
 
-            graph.getViewport().setScrollable(true);
-            graph.getViewport().setScrollableY(true);
-            graph.getViewport().setScalable(true);
-            graph.getViewport().setScalableY(true);
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState){
+            super.onViewCreated(view, savedInstanceState);
+            updateGraph();
+        }
+
+        private void updateGraph(){
+            String sectionName = getArguments().getString(ARG_SECTION_NAME);
+            GraphView graph = (GraphView) getView().findViewById(R.id.graph);
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+            if(sectionName.equals("Heart Rate")) {
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 1),
+                        new DataPoint(1, 5),
+                        new DataPoint(2, 3),
+                        new DataPoint(3, 2),
+                        new DataPoint(4, 6)
+                });
+            }
+            else if(sectionName.equals("Respiratory Rate")){
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 1),
+                        new DataPoint(1, 2),
+                        new DataPoint(2, 3),
+                        new DataPoint(3, 4),
+                        new DataPoint(4, 5)
+                });
+            }
+            else if(sectionName.equals("Core Temperature")){
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 5),
+                        new DataPoint(1, 4),
+                        new DataPoint(2, 3),
+                        new DataPoint(3, 2),
+                        new DataPoint(4, 1)
+                });
+            }
+            else if(sectionName.equals("Ambient Temperature")){
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 1),
+                        new DataPoint(1, 1),
+                        new DataPoint(2, 5),
+                        new DataPoint(3, 1),
+                        new DataPoint(4, 1)
+                });
+            }
 
             graph.addSeries(series);
 
 
-            return rootView;
         }
+
     }
 
     /**
