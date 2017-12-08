@@ -18,6 +18,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -172,8 +173,43 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
+/*
+                || LoginPreferenceFragment.class.getName().equals(fragmentName)
+*/
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
+
+    /**
+     * This fragment begins login preferences activity.
+     *//*
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class LoginPreferenceFragment extends PreferenceFragment {
+        private static final String TAG = "SETTINGS";
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            *//*addPreferencesFromResource(R.xml.pref_login);*//*
+            setHasOptionsMenu(true);
+
+            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+            // to their values. When their values change, their summaries are
+            // updated to reflect the new value, per the Android Design
+            // guidelines.
+            bindPreferenceSummaryToValue(findPreference("login"));
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                Log.d(TAG, "loginActivity started");
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }*/
 
     /**
      * This fragment shows general preferences only. It is used when the
