@@ -11,6 +11,9 @@ import java.util.Date;
  * Created by patrickatkins on 10/23/17.
  */
 
+//TODO: add threshold checks here
+//TODO: raise event
+
 public class DbUpdateService extends IntentService {
     public DbUpdateService(String name) {
         super(name);
