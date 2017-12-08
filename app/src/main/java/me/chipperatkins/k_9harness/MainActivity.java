@@ -42,27 +42,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Add a note?", new AddMemoListener()).show();
             }
         });
-
-        // create a dog
-        Dog dog = new Dog("chipper");
-        dog.abdominalTempThreshold = 88.0;
-        dog.coreTempThreshold = 102.0;
-        dog.respiratoryRateThreshold = 7.0;
-        dog.heartRateThreshold = 98.0;
-
-        // store a dog
-        StorageHandler storageHandler = new StorageHandler(getApplicationContext());
-        storageHandler.storeDog(dog);
-
-        // create a session
-        Session session = new Session("chipper");
-
-        // store a session
-        storageHandler.storeSessionAndUpdateDog(session);
-
-        Intent intent = new Intent(getApplicationContext(), DbUpdateService.class);
-
-        this.startService(intent);
     }
 
     @Override
