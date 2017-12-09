@@ -8,27 +8,31 @@ import android.app.Application;
 
 public class DogApplication extends Application {
 
-    private Dog activeDog = null;
-    private boolean btToggle = false;
+    static private Dog activeDog = null;
+    static private boolean bluetoothToggle = false;
+    static private DataUpdateReciever mReceiver;
 
-    public Dog getActiveDog() {
+    static public Dog getActiveDog() {
         return activeDog;
     }
 
-    public void setActiveDog(Dog active){
+    static public void setActiveDog(Dog active){
         activeDog = active;
     }
 
-    public boolean btConnected() {
-        return btToggle;
+    static public boolean isBluetoothConnected() {
+        return bluetoothToggle;
     }
 
-    public void btToggle(){
-        if (btToggle) {
-            btToggle = false;
+    static public void bluetoothToggle(){
+        if (bluetoothToggle) {
+            bluetoothToggle = false;
         }
         else {
-            btToggle = true;
+            bluetoothToggle = true;
         }
     }
+
+    static public DataUpdateReciever getUpdateReceiver() { return mReceiver; }
+    static public void setUpdateReceiver(DataUpdateReciever mDataReceiver) { mReceiver = mDataReceiver; }
 }

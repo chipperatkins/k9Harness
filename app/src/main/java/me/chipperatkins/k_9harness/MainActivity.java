@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import android.preference.Preference;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DataUpdateReciever.Receiver {
 
 
 
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DataUpdateReciever mReceiver = new DataUpdateReciever(new Handler());
+        mReceiver.setReceiver(this);
+        DogApplication.setUpdateReceiver(mReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if(getSupportActionBar() != null) {
@@ -50,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Add a note?", new AddMemoListener()).show();
             }
         });
-
-        updateUI();
-
+        
         // create a dog
         Dog dog = new Dog("chipper");
         dog.abdominalTempThreshold = 88.0;
@@ -125,23 +127,30 @@ public class MainActivity extends AppCompatActivity {
             startPage = 3;
         intent.putExtra("startPage", startPage);
         startActivity(intent);
-
     }
 
-    public void updateUI() {
-        StorageHandler storageHandler = new StorageHandler(getApplicationContext());
-
+    public void updateUI(Bundle resultData) {
 
         Button heartRateButton = (Button) findViewById(R.id.heart_rate);
-        heartRateButton.setText("Heart Rate:\n20");
+        heartRateButton.setText(Double.toString(resultData.getDouble("hr")));
 
         Button respiratoryRateButton = (Button) findViewById(R.id.respiratory_rate);
-        respiratoryRateButton.setText("Respiratory Rate:\n30");
+        heartRateButton.setText(Double.toString(resultData.getDouble("rr")));
 
         Button coreTemperatureButton = (Button) findViewById(R.id.core_temperature);
-        coreTemperatureButton.setText("Core Temperature:\n50");
+        heartRateButton.setText(Double.toString(resultData.getDouble("coreTemp")));
 
         Button ambientTemperatureButton = (Button) findViewById(R.id.ambient_temperature);
-        ambientTemperatureButton.setText("Ambient Temperature:\n22");
+        heartRateButton.setText(Double.toString(resultData.getDouble("ambientTemp")));
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        if(resultCode==1) {
+            updateUI(resultData);
+        }
+        else if(resultCode==2) {
+            // Handle thresholds however you desire
+        }
     }
 }
