@@ -12,7 +12,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/heart_rate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
@@ -22,7 +22,7 @@
             android:onClick="goToGraph" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/respiratory_rate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/holo_green_light"
@@ -40,7 +40,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/core_temperature"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/holo_blue_light"
@@ -50,7 +50,7 @@
             android:onClick="goToGraph"/>
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/ambient_temperature"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.0"

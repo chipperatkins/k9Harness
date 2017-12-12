@@ -68,6 +68,8 @@ public class BluetoothFragment extends Fragment {
         Log.d(TAG, "Creating fragment");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -187,7 +189,7 @@ public class BluetoothFragment extends Fragment {
 
         Log.d(TAG, "setupListener()- clickListener made");
         // Initialize the BluetoothListenerService to perform bluetooth connections
-        mListenerService = new BluetoothListenerService(getActivity(), mHandler);
+        mListenerService = new BluetoothListenerService(getActivity());
         Log.d(TAG, "setupListener() - btListenerService started");
     }
 

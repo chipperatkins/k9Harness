@@ -31,23 +31,23 @@ public class BluetoothListenerService {
     private static final UUID MY_UUID_INSECURE = UUID.fromString("127c151f-6de5-4f0a-a418-25c091e3c7f0");
 
     private BluetoothAdapter mAdapter;
-    private BtHandler mHandler;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
     private int mState;
     private int mNewState;
+    private Context mContext;
 
     public static final int STATE_NONE = 0;
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
 
-    public BluetoothListenerService(Context context, BtHandler handler) {
+    public BluetoothListenerService(Context context) {
         super();
         Log.d(TAG, "Creating BtListenerService");
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mNewState = mState;
-        mHandler = handler;
+        mContext = context;
         Log.d(TAG, "BtListenerService created");
     }
 
@@ -111,13 +111,6 @@ public class BluetoothListenerService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-
-        // Send the name of the connected device back to the UI Activity
-        /*Message msg = mHandler.obtainMessage(Constants.MESSAGE_DEVICE_NAME);
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.DEVICE_NAME, device.getName());
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);*/
     }
 
     public synchronized void stop() {
@@ -137,11 +130,8 @@ public class BluetoothListenerService {
     }
 
     private void connectionFailed() {
-        Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.TOAST, "Unable to connect device");
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
 
         mState = STATE_NONE;
 
@@ -150,12 +140,8 @@ public class BluetoothListenerService {
     }
 
     private void connectionLost() {
-        Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.TOAST, "Device connection was lost");
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
-
         mState = STATE_NONE;
 
         // Start the service over to restart listening mode
@@ -250,13 +236,20 @@ public class BluetoothListenerService {
 
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[8];
+            byte[] buffer = new byte[1024];
+            int bytes=0;
 
             // keep listening to the InputStream while connected
             while (mState == STATE_CONNECTED) {
                 try {
-                    mmInStream.read(buffer);
-                    mHandler.handleMessage(buffer);
+                    bytes = mmInStream.read(buffer);
+                    // Verify buffer contains correct byte array
+
+
+                    Intent intent = new Intent( mContext , DbUpdateService.class);
+                    intent.putExtra("byteArr", buffer);
+                    intent.putExtra("dataUpdateReceiver", DogApplication.getUpdateReceiver());
+                    mContext.startService(intent);
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
