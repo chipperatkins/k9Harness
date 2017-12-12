@@ -31,7 +31,8 @@ public class DbUpdateService extends IntentService {
 
         // Global logged in dog is saved in settings could be sent in through intent, merge here with scott
 
-        Dog dog = handler.retrieveDog("chipper");
+        //Dog dog = handler.retrieveDog("chipper");
+        Dog dog = ((DogApplication) this.getApplication()).getActiveDog();
         String sessionId = dog.sessions.get(dog.sessions.size() -1);
         Session session = handler.retrieveSession(sessionId);
 
@@ -96,7 +97,7 @@ public class DbUpdateService extends IntentService {
                 b.putDouble("heartRate", hr);
                 b.putDouble("repiratoryRate", rr);
                 b.putSerializable("date", now);
-                rec.send(1, b);
+//                rec.send(1, b);
 
                 // check that the datapoint does not exceed thresholds for logged in dog
                 Bundle t = new Bundle();
@@ -119,7 +120,7 @@ public class DbUpdateService extends IntentService {
                 }
 
                 if (thresholdExceeded) {
-                    rec.send(2, t);
+//                    rec.send(2, t);
                 }
             }
             catch (NumberFormatException nfe) {
