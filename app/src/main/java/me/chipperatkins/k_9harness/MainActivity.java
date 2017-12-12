@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -50,6 +52,43 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Add a note?", new AddMemoListener()).show();
             }
         });
+
+        LinearLayout heartRateButton = (LinearLayout)findViewById(R.id.heart_rate);
+        heartRateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(0);
+            }
+        });
+
+        LinearLayout respiratoryRateButton = (LinearLayout)findViewById(R.id.respiratory_rate);
+        respiratoryRateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(1);
+            }
+        });
+
+        LinearLayout coreTemperatureButton = (LinearLayout)findViewById(R.id.core_temperature);
+        coreTemperatureButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(2);
+            }
+        });
+
+        LinearLayout ambientTemperatureButton = (LinearLayout)findViewById(R.id.ambient_temperature);
+        ambientTemperatureButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(3);
+            }
+        });
+
 
         updateUI();
 
@@ -110,19 +149,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void goToGraph(View view){
+    public void goToGraph(int startPage){
         Log.d("GO_TO_GRAPH", "button pressed");
         Intent intent = new Intent(MainActivity.this, MainGraphActivity.class);
-        String buttonTag = view.getTag().toString();
-        int startPage = 0;
-        if(buttonTag.equals("heart_rate"))
-            startPage = 0;
-        else if(buttonTag.equals("respiratory_rate"))
-            startPage = 1;
-        else if(buttonTag.equals("core_temperature"))
-            startPage = 2;
-        else if(buttonTag.equals("ambient_temperature"))
-            startPage = 3;
         intent.putExtra("startPage", startPage);
         startActivity(intent);
 
@@ -132,16 +161,18 @@ public class MainActivity extends AppCompatActivity {
         StorageHandler storageHandler = new StorageHandler(getApplicationContext());
 
 
-        Button heartRateButton = (Button) findViewById(R.id.heart_rate);
-        heartRateButton.setText("Heart Rate:\n20");
+        TextView heartRateValue = (TextView) findViewById(R.id.heart_rate_value);
+        heartRateValue.setText("20");
 
-        Button respiratoryRateButton = (Button) findViewById(R.id.respiratory_rate);
-        respiratoryRateButton.setText("Respiratory Rate:\n30");
+        TextView respiratoryRateValue = (TextView) findViewById(R.id.respiratory_rate_value);
+        respiratoryRateValue.setText("30");
 
-        Button coreTemperatureButton = (Button) findViewById(R.id.core_temperature);
-        coreTemperatureButton.setText("Core Temperature:\n50");
+        TextView coreTemperatureValue = (TextView) findViewById(R.id.core_temperature_value);
+        coreTemperatureValue.setText("50");
 
-        Button ambientTemperatureButton = (Button) findViewById(R.id.ambient_temperature);
-        ambientTemperatureButton.setText("Ambient Temperature:\n22");
+        TextView ambientTemperatureValue = (TextView) findViewById(R.id.ambient_temperature_value);
+        ambientTemperatureValue.setText("22");
+
+
     }
 }
