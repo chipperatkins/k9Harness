@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements DataUpdateRecieve
         // store a session
         storageHandler.storeSessionAndUpdateDog(session);
 
-        Intent intent = new Intent(getApplicationContext(), DbUpdateService.class);
+        Intent intent = new Intent(getApplicationContext(), DataTestDriver.class);
 
         this.startService(intent);
     }
