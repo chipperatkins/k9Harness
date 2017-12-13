@@ -11,25 +11,66 @@
 
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/heart_rate"
+        
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@android:color/white"
             android:layout_weight="1.0"
-            android:text="Heart Rate"
-            android:tag="heart_rate"
-            android:onClick="goToGraph" />
+            android:id="@+id/heart_rate">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Heart Rate">
 
-        <Button
-            android:id="@+id/respiratory_rate"
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="50sp"
+                android:id="@+id/heart_rate_value">
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@android:color/holo_green_light"
             android:layout_weight="1.0"
-            android:text="Respiratory Rate"
-            android:tag="respiratory_rate"
-            android:onClick="goToGraph"/>
+            android:id="@+id/respiratory_rate">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Respiratory Rate">
+
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="50sp"
+                android:id="@+id/respiratory_rate_value">
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 
@@ -39,25 +80,65 @@
         android:layout_weight="1.0"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/core_temperature"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@android:color/holo_blue_light"
             android:layout_weight="1.0"
-            android:text="Core Temperature"
-            android:tag="core_temperature"
-            android:onClick="goToGraph"/>
+            android:id="@+id/core_temperature">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Core Temperature">
 
-        <Button
-            android:id="@+id/ambient_temperature"
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="50sp"
+                android:id="@+id/core_temperature_value">
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@android:color/holo_orange_light"
             android:layout_weight="1.0"
-            android:background="@android:color/holo_red_light"
-            android:onClick="goToGraph"
-            android:tag="ambient_temperature"
-            android:text="Ambient Temperature" />
+            android:id="@+id/ambient_temperature">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Ambient Temperature">
+
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:textSize="50sp"
+                android:id="@+id/ambient_temperature_value">
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 </LinearLayout>

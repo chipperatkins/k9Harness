@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import android.preference.Preference;
 
-public class MainActivity extends AppCompatActivity implements DataUpdateReciever.Receiver {
+public class MainActivity extends AppCompatActivity {
 
 
 
@@ -54,7 +56,45 @@ public class MainActivity extends AppCompatActivity implements DataUpdateRecieve
                         .setAction("Add a note?", new AddMemoListener()).show();
             }
         });
-        
+
+        LinearLayout heartRateButton = (LinearLayout)findViewById(R.id.heart_rate);
+        heartRateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(0);
+            }
+        });
+
+        LinearLayout respiratoryRateButton = (LinearLayout)findViewById(R.id.respiratory_rate);
+        respiratoryRateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(1);
+            }
+        });
+
+        LinearLayout coreTemperatureButton = (LinearLayout)findViewById(R.id.core_temperature);
+        coreTemperatureButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(2);
+            }
+        });
+
+        LinearLayout ambientTemperatureButton = (LinearLayout)findViewById(R.id.ambient_temperature);
+        ambientTemperatureButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goToGraph(3);
+            }
+        });
+
+
+
         // create a dog
         Dog dog = new Dog("chipper");
         dog.abdominalTempThreshold = 88.0;
@@ -75,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements DataUpdateRecieve
         Intent intent = new Intent(getApplicationContext(), DataTestDriver.class);
 
         this.startService(intent);
+        updateUI("chipper");
     }
 
     @Override
@@ -110,38 +151,66 @@ public class MainActivity extends AppCompatActivity implements DataUpdateRecieve
             getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
 
         }
+        updateUI(prefs.getString("current_dog", ""));
+
     }
 
-    public void goToGraph(View view){
+    public void goToGraph(int startPage){
         Log.d("GO_TO_GRAPH", "button pressed");
         Intent intent = new Intent(MainActivity.this, MainGraphActivity.class);
-        String buttonTag = view.getTag().toString();
-        int startPage = 0;
-        if(buttonTag.equals("heart_rate"))
-            startPage = 0;
-        else if(buttonTag.equals("respiratory_rate"))
-            startPage = 1;
-        else if(buttonTag.equals("core_temperature"))
-            startPage = 2;
-        else if(buttonTag.equals("ambient_temperature"))
-            startPage = 3;
         intent.putExtra("startPage", startPage);
         startActivity(intent);
+
     }
 
     public void updateUI(Bundle resultData) {
+        StorageHandler storageHandler = new StorageHandler();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Dog dog = storageHandler.retrieveDog(prefs.getString("current_dog", ""));
+        double heartRate = resultData.getDouble("hr");
+        double respiratoryRate = resultData.getDouble("rr");
+        double coreTemperature = resultData.getDouble("coreTemp");
+        double ambientTemperature = resultData.getDouble("ambientTemp");
 
-        Button heartRateButton = (Button) findViewById(R.id.heart_rate);
-        heartRateButton.setText(Double.toString(resultData.getDouble("hr")));
+        TextView heartRateValue = (TextView) findViewById(R.id.heart_rate_value);
+        heartRateValue.setText(Double.toString(heartRate));
+        if(dog != null && dog.isOverHeartRateThreshold(heartRate)){
+            heartRateValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            heartRateValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
 
-        Button respiratoryRateButton = (Button) findViewById(R.id.respiratory_rate);
-        heartRateButton.setText(Double.toString(resultData.getDouble("rr")));
 
-        Button coreTemperatureButton = (Button) findViewById(R.id.core_temperature);
-        heartRateButton.setText(Double.toString(resultData.getDouble("coreTemp")));
+        TextView respiratoryRateValue = (TextView) findViewById(R.id.respiratory_rate_value);
+        respiratoryRateValue.setText(Double.toString(respiratoryRate));
+        if(dog != null && dog.isOverRespiratoryRateThreshold(respiratoryRate)){
+            respiratoryRateValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            respiratoryRateValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
 
-        Button ambientTemperatureButton = (Button) findViewById(R.id.ambient_temperature);
-        heartRateButton.setText(Double.toString(resultData.getDouble("ambientTemp")));
+        TextView coreTemperatureValue = (TextView) findViewById(R.id.core_temperature_value);
+        coreTemperatureValue.setText(Double.toString(coreTemperature));
+        if(dog != null && dog.isOverCoreTempThreshold(coreTemperature)){
+            coreTemperatureValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            coreTemperatureValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
+        TextView ambientTemperatureValue = (TextView) findViewById(R.id.ambient_temperature_value);
+        ambientTemperatureValue.setText(Double.toString(ambientTemperature));
+        if(dog != null && dog.isOverAbdominalTempThreshold(ambientTemperature))
+        {
+            ambientTemperatureValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            ambientTemperatureValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
+
     }
 
     @Override

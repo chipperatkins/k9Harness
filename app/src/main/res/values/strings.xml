@@ -19,7 +19,7 @@
     <string name="title_activity_graph">GraphActivity</string>
     <string name="title_activity_main_graph">MainGraphActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
