@@ -194,9 +194,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             ListPreference selectDogPref = (ListPreference) findPreference("current_dog");
 
-            StorageHandler storageHandler = new StorageHandler(getActivity().getApplicationContext());
+            //StorageHandler storageHandler = new StorageHandler(getActivity().getApplicationContext());
             //String[] x = new String[10];
-            //String[] dogs = storageHandler.retrieveAllDogs().keySet().toArray(x);
+            //Map<String, Object> dogs2 = storageHandler.retrieveAllDogs();
             CharSequence[] dogs = new CharSequence[] {"Fido", "Spot", "Jake"};
             selectDogPref.setEntries(dogs);
             selectDogPref.setEntryValues(dogs);

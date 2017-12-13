@@ -158,20 +158,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateUI() {
-        StorageHandler storageHandler = new StorageHandler(getApplicationContext());
+        //StorageHandler storageHandler = new StorageHandler(getApplicationContext());
+        //Dog dog = storageHandler.retrieveDog("chipper");
+        double heartRate = 100;
+        double respiratoryRate = 30;
+        double coreTemperature = 50;
+        double ambientTemperature = 60;
 
+        double heartRateThreshold = 98;
+        double respiratoryRateThreshold = 50;
+        double coreTemperatureThreshold = 60;
+        double ambientTemperatureThreshold = 70;
 
         TextView heartRateValue = (TextView) findViewById(R.id.heart_rate_value);
-        heartRateValue.setText("20");
+        heartRateValue.setText(Double.toString(heartRate));
+        if(heartRate > heartRateThreshold){
+            heartRateValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            heartRateValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
 
         TextView respiratoryRateValue = (TextView) findViewById(R.id.respiratory_rate_value);
-        respiratoryRateValue.setText("30");
+        respiratoryRateValue.setText(Double.toString(respiratoryRate));
+        if(respiratoryRate > respiratoryRateThreshold){
+            respiratoryRateValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            respiratoryRateValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
 
         TextView coreTemperatureValue = (TextView) findViewById(R.id.core_temperature_value);
-        coreTemperatureValue.setText("50");
+        coreTemperatureValue.setText(Double.toString(coreTemperature));
+        if(coreTemperature > coreTemperatureThreshold){
+            coreTemperatureValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            coreTemperatureValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
 
         TextView ambientTemperatureValue = (TextView) findViewById(R.id.ambient_temperature_value);
-        ambientTemperatureValue.setText("22");
+        ambientTemperatureValue.setText(Double.toString(ambientTemperature));
+        if(ambientTemperature > ambientTemperatureThreshold)
+        {
+            ambientTemperatureValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else{
+            ambientTemperatureValue.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
 
 
     }
