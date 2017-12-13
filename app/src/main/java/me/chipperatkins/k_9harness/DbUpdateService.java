@@ -28,7 +28,8 @@ public class DbUpdateService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         StorageHandler handler = new StorageHandler();
         byte[] readBuf = intent.getByteArrayExtra("byteArr");
-        ResultReceiver rec = intent.getParcelableExtra("dataUpdateReceiver");
+        ResultReceiver rec = DogApplication.getUpdateReceiver();
+        //ResultReceiver rec = intent.getParcelableExtra("dataUpdateReceiver");
 
         // Global logged in dog is saved in settings could be sent in through intent, merge here with scott
 
@@ -96,9 +97,9 @@ public class DbUpdateService extends IntentService {
                 // we stored the datapoint, send an update to the gui with the data
                 Bundle b = new Bundle();
                 b.putDouble("coreTemp", coreTemp);
-                b.putDouble("abdominalTemp", abdominalTemp);
-                b.putDouble("heartRate", hr);
-                b.putDouble("repiratoryRate", rr);
+                b.putDouble("ambientTemp", ambientTemp);
+                b.putDouble("hr", hr);
+                b.putDouble("rr", rr);
                 b.putSerializable("date", now);
                 rec.send(1, b);
 
@@ -106,19 +107,19 @@ public class DbUpdateService extends IntentService {
                 Bundle t = new Bundle();
                 boolean thresholdExceeded = false;
                 if (dog.isOverCoreTempThreshold(coreTemp)) {
-                    b.putString("coreTemp", "coreTemp threshold exceeded");
+                    t.putString("coreTemp", "coreTemp threshold exceeded");
                     thresholdExceeded = true;
                 }
                 if (dog.isOverAbdominalTempThreshold(abdominalTemp)) {
-                    b.putString("abdominalTemp", "abdominalTemp threshold exceeded");
+                    t.putString("abdominalTemp", "abdominalTemp threshold exceeded");
                     thresholdExceeded = true;
                 }
                 if (dog.isOverHeartRateThreshold(hr)) {
-                    b.putString("hr", "heartRate threshold exceeded");
+                    t.putString("hr", "heartRate threshold exceeded");
                     thresholdExceeded = true;
                 }
                 if (dog.isOverRespiratoryRateThreshold(rr)) {
-                    b.putString("rr", "respiratoryRate threshold exceeded");
+                    t.putString("rr", "respiratoryRate threshold exceeded");
                     thresholdExceeded = true;
                 }
 

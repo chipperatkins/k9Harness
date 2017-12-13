@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import android.preference.Preference;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DataUpdateReciever.Receiver{
 
 
 
@@ -111,11 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
         // store a session
         storageHandler.storeSessionAndUpdateDog(session);
+        Dog tempDog = storageHandler.retrieveDog("chipper");
+        DogApplication.setActiveDog(tempDog);
 
         Intent intent = new Intent(getApplicationContext(), DataTestDriver.class);
 
         this.startService(intent);
-        updateUI("chipper");
     }
 
     @Override
@@ -151,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
 
         }
-        updateUI(prefs.getString("current_dog", ""));
-
     }
 
     public void goToGraph(int startPage){
@@ -167,10 +166,10 @@ public class MainActivity extends AppCompatActivity {
         StorageHandler storageHandler = new StorageHandler();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Dog dog = storageHandler.retrieveDog(prefs.getString("current_dog", ""));
-        double heartRate = resultData.getDouble("hr");
-        double respiratoryRate = resultData.getDouble("rr");
-        double coreTemperature = resultData.getDouble("coreTemp");
-        double ambientTemperature = resultData.getDouble("ambientTemp");
+        int heartRate = (int) resultData.getDouble("hr");
+        int respiratoryRate = (int) resultData.getDouble("rr");
+        int coreTemperature = (int) resultData.getDouble("coreTemp");
+        int ambientTemperature = (int) resultData.getDouble("ambientTemp");
 
         TextView heartRateValue = (TextView) findViewById(R.id.heart_rate_value);
         heartRateValue.setText(Double.toString(heartRate));

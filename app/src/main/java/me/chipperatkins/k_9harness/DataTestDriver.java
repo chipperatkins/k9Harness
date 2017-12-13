@@ -24,11 +24,11 @@ public class DataTestDriver extends IntentService {
         long startTime = System.nanoTime();
         while((System.nanoTime()-startTime) < 5 *60*NANOSEC_PER_SEC) {
             //create dummy data
-            double hr = 50 - (150-50) * r.nextDouble();
-            double rr = 50 - (100-50) * r.nextDouble();
-            double abdominalTemp = 80 - (125-80) * r.nextDouble();
-            double ambientTemp = 30 - (75-30) * r.nextDouble();
-            double chestTemp = 80 - (125-80) * r.nextDouble();
+            int hr = (int) (100 * r.nextDouble()) + 50;
+            int rr = (int) (50 * r.nextDouble()) + 50;
+            int abdominalTemp = (int) (80 * r.nextDouble()) + 60;
+            int ambientTemp = (int) (75 * r.nextDouble()) + 30;
+            int chestTemp = (int) (80  * r.nextDouble()) + 40;
 
             String testString = hr + ":" + rr + ":" + abdominalTemp + ":" + ambientTemp + ":" + chestTemp;
             dummyBytes = testString.getBytes();
