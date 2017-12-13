@@ -58,8 +58,10 @@ class StorageHandler {
     Dog retrieveDog(String name) {
         Map<String, Object> dogDocument = database.retrieve(dogDocumentId);
         Map dogMap = (Map) dogDocument.get(name);
-
-        return Dog.toDog(dogMap);
+        if(dogMap != null){
+            return Dog.toDog(dogMap);
+        }
+        return null;
     }
 
     // retrieve all dogs

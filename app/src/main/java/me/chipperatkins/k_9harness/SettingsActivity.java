@@ -23,6 +23,8 @@ import android.view.MenuItem;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -194,14 +196,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             ListPreference selectDogPref = (ListPreference) findPreference("current_dog");
 
-            //StorageHandler storageHandler = new StorageHandler(getActivity().getApplicationContext());
-            //String[] x = new String[10];
-            //Map<String, Object> dogs2 = storageHandler.retrieveAllDogs();
-            CharSequence[] dogs = new CharSequence[] {"Fido", "Spot", "Jake"};
+            StorageHandler storageHandler = new StorageHandler();
+
+            Set<String> ds = storageHandler.retrieveAllDogs().keySet();
+            ArrayList<String> d2 = new ArrayList<String>();
+            for(String s: ds){
+                if(!s.startsWith("_")){
+                    d2.add(s);
+                }
+            }
+            CharSequence[] dogs = d2.toArray(new CharSequence[1]);
+            //CharSequence[] dogs = new CharSequence[] {"Fido", "Spot", "Jake"};
             selectDogPref.setEntries(dogs);
             selectDogPref.setEntryValues(dogs);
-            selectDogPref.setDefaultValue("Fido");
-
+            if(dogs.length > 0) {
+                selectDogPref.setDefaultValue(dogs[0]);
+            }
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences

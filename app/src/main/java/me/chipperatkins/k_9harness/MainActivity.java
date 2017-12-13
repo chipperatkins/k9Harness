@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        updateUI();
 
         // create a dog
         Dog dog = new Dog("chipper");
@@ -103,15 +102,19 @@ public class MainActivity extends AppCompatActivity {
         StorageHandler storageHandler = new StorageHandler(getApplicationContext());
         storageHandler.storeDog(dog);
 
+        //Dog d = storageHandler.retrieveDog("chipper");
         // create a session
         Session session = new Session("chipper");
 
         // store a session
         storageHandler.storeSessionAndUpdateDog(session);
 
+        updateUI("chipper");
         Intent intent = new Intent(getApplicationContext(), DbUpdateService.class);
 
         this.startService(intent);
+
+
     }
 
     @Override
@@ -147,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
 
         }
+        updateUI(prefs.getString("current_dog", ""));
+
     }
 
     public void goToGraph(int startPage){
@@ -157,22 +162,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void updateUI() {
-        //StorageHandler storageHandler = new StorageHandler(getApplicationContext());
-        //Dog dog = storageHandler.retrieveDog("chipper");
+    public void updateUI(String curDog) {
+        StorageHandler storageHandler = new StorageHandler();
+        Dog dog = storageHandler.retrieveDog(curDog);
         double heartRate = 100;
         double respiratoryRate = 30;
         double coreTemperature = 50;
         double ambientTemperature = 60;
 
-        double heartRateThreshold = 98;
-        double respiratoryRateThreshold = 50;
-        double coreTemperatureThreshold = 60;
-        double ambientTemperatureThreshold = 70;
-
         TextView heartRateValue = (TextView) findViewById(R.id.heart_rate_value);
         heartRateValue.setText(Double.toString(heartRate));
-        if(heartRate > heartRateThreshold){
+        if(dog != null && dog.isOverHeartRateThreshold(heartRate)){
             heartRateValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         }
         else{
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView respiratoryRateValue = (TextView) findViewById(R.id.respiratory_rate_value);
         respiratoryRateValue.setText(Double.toString(respiratoryRate));
-        if(respiratoryRate > respiratoryRateThreshold){
+        if(dog != null && dog.isOverRespiratoryRateThreshold(respiratoryRate)){
             respiratoryRateValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         }
         else{
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView coreTemperatureValue = (TextView) findViewById(R.id.core_temperature_value);
         coreTemperatureValue.setText(Double.toString(coreTemperature));
-        if(coreTemperature > coreTemperatureThreshold){
+        if(dog != null && dog.isOverCoreTempThreshold(coreTemperature)){
             coreTemperatureValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         }
         else{
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView ambientTemperatureValue = (TextView) findViewById(R.id.ambient_temperature_value);
         ambientTemperatureValue.setText(Double.toString(ambientTemperature));
-        if(ambientTemperature > ambientTemperatureThreshold)
+        if(dog != null && dog.isOverAbdominalTempThreshold(ambientTemperature))
         {
             ambientTemperatureValue.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         }
