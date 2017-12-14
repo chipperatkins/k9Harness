@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity implements DataUpdateRecieve
 
         // create a dog
         Dog dog = new Dog("chipper");
-        dog.abdominalTempThreshold = 88.0;
-        dog.coreTempThreshold = 102.0;
-        dog.respiratoryRateThreshold = 7.0;
+        dog.abdominalTempThreshold = 1000.0;
+        dog.coreTempThreshold = 1000.0;
+        dog.respiratoryRateThreshold = 1000.0;
         dog.heartRateThreshold = 98.0;
 
         // store a dog
@@ -142,6 +142,10 @@ public class MainActivity extends AppCompatActivity implements DataUpdateRecieve
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_login){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             return true;
         }
