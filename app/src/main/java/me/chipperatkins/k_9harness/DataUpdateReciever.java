@@ -18,7 +18,7 @@ public class DataUpdateReciever extends ResultReceiver {
     }
 
     public interface Receiver {
-        public void onRecceiveResult(int resultCode, Bundle resultData);
+        public void onReceiveResult(int resultCode, Bundle resultData);
     }
 
     public void setReceiver(Receiver receiver) {
@@ -28,7 +28,7 @@ public class DataUpdateReciever extends ResultReceiver {
     @Override
     protected void onReceiveResult(int resultCode, Bundle resultData) {
         if (mReceiver != null) {
-            mReceiver.onRecceiveResult(resultCode, resultData);
+            mReceiver.onReceiveResult(resultCode, resultData);
         }
     }
 }

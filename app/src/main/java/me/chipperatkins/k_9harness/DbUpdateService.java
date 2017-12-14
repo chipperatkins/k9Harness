@@ -27,17 +27,19 @@ public class DbUpdateService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         StorageHandler handler = new StorageHandler();
-        ResultReceiver rec = intent.getParcelableExtra("DataUpdate");
+        byte[] readBuf = intent.getByteArrayExtra("byteArr");
+        ResultReceiver rec = DogApplication.getUpdateReceiver();
+        //ResultReceiver rec = intent.getParcelableExtra("dataUpdateReceiver");
 
         // Global logged in dog is saved in settings could be sent in through intent, merge here with scott
 
         //Dog dog = handler.retrieveDog("chipper");
-        Dog dog = ((DogApplication) this.getApplication()).getActiveDog();
+        Dog dog = DogApplication.getActiveDog();
         String sessionId = dog.sessions.get(dog.sessions.size() -1);
         Session session = handler.retrieveSession(sessionId);
 
 
-        // Things for Scott to Sync
+/*        // Things for Scott to Sync
         Object byteArrayFromBlueTooth = null;
         int numBytesFromBlueTooth = 8;
         // ---------------------------------
@@ -47,7 +49,9 @@ public class DbUpdateService extends IntentService {
         byte[] testBytes = testData.getBytes();
         int numBytes = testBytes.length;
 
-        byte[] readBuf = (byte[]) testBytes;
+        byte[] readBuf = (byte[]) testBytes;*/
+
+        int numBytes = readBuf.length;
         String readMessage = new String(readBuf, 0, numBytes);
         String[] parsedMessage = readMessage.split(":");
 
@@ -93,34 +97,34 @@ public class DbUpdateService extends IntentService {
                 // we stored the datapoint, send an update to the gui with the data
                 Bundle b = new Bundle();
                 b.putDouble("coreTemp", coreTemp);
-                b.putDouble("abdominalTemp", abdominalTemp);
-                b.putDouble("heartRate", hr);
-                b.putDouble("repiratoryRate", rr);
+                b.putDouble("ambientTemp", ambientTemp);
+                b.putDouble("hr", hr);
+                b.putDouble("rr", rr);
                 b.putSerializable("date", now);
-//                rec.send(1, b);
+                rec.send(1, b);
 
                 // check that the datapoint does not exceed thresholds for logged in dog
                 Bundle t = new Bundle();
                 boolean thresholdExceeded = false;
                 if (dog.isOverCoreTempThreshold(coreTemp)) {
-                    b.putString("threshold", "coreTemp threshold exceeded");
+                    t.putString("coreTemp", "coreTemp threshold exceeded");
                     thresholdExceeded = true;
                 }
                 if (dog.isOverAbdominalTempThreshold(abdominalTemp)) {
-                    b.putString("threshold", "abdominalTemp threshold exceeded");
+                    t.putString("abdominalTemp", "abdominalTemp threshold exceeded");
                     thresholdExceeded = true;
                 }
                 if (dog.isOverHeartRateThreshold(hr)) {
-                    b.putString("threshold", "heartRate threshold exceeded");
+                    t.putString("hr", "heartRate threshold exceeded");
                     thresholdExceeded = true;
                 }
                 if (dog.isOverRespiratoryRateThreshold(rr)) {
-                    b.putString("threshold", "respiratoryRate threshold exceeded");
+                    t.putString("rr", "respiratoryRate threshold exceeded");
                     thresholdExceeded = true;
                 }
 
                 if (thresholdExceeded) {
-//                    rec.send(2, t);
+                    rec.send(2, t);
                 }
             }
             catch (NumberFormatException nfe) {
