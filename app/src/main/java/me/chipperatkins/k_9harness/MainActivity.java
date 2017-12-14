@@ -27,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        StorageHandler mHandler = new StorageHandler(getApplicationContext());
+
+        if(((DogApplication) getApplication()).getActiveDog() == null) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
 
         if(getSupportActionBar() != null)
         {
