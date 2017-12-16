@@ -1,5 +1,7 @@
 package me.chipperatkins.k_9harness;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +15,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.ViewParent;
 import android.widget.TextView;
 
 import android.content.Intent;
@@ -48,7 +52,7 @@ public class MainGraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_graph);
 
 
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +62,11 @@ public class MainGraphActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
             getSupportActionBar().setTitle("Dog Name");
+
+
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
+            }
         }
 
         // Create the adapter that will return a fragment for each of the three
@@ -85,7 +94,16 @@ public class MainGraphActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setTitle(prefs.getString("current_dog", "Dog Name"));
 
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,23 +182,75 @@ public class MainGraphActivity extends AppCompatActivity {
             textView.setText(getArguments().getString(ARG_SECTION_NAME));
 
             GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                    new DataPoint(0, 1),
-                    new DataPoint(1, 5),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 2),
-                    new DataPoint(4, 6)
-            });
 
             graph.getViewport().setScrollable(true);
             graph.getViewport().setScrollableY(true);
             graph.getViewport().setScalable(true);
             graph.getViewport().setScalableY(true);
 
-            graph.addSeries(series);
+            graph.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    ViewParent parent = v.getParent();
+                    parent.requestDisallowInterceptTouchEvent(true);
+                    return v.onTouchEvent(event);
+                }
+            });
 
             return rootView;
         }
+
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState){
+            super.onViewCreated(view, savedInstanceState);
+            updateGraph();
+        }
+
+        private void updateGraph(){
+            String sectionName = getArguments().getString(ARG_SECTION_NAME);
+            GraphView graph = (GraphView) getView().findViewById(R.id.graph);
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+            if(sectionName.equals("Heart Rate")) {
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 1),
+                        new DataPoint(1, 5),
+                        new DataPoint(2, 3),
+                        new DataPoint(3, 2),
+                        new DataPoint(4, 6)
+                });
+            }
+            else if(sectionName.equals("Respiratory Rate")){
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 1),
+                        new DataPoint(1, 2),
+                        new DataPoint(2, 3),
+                        new DataPoint(3, 4),
+                        new DataPoint(4, 5)
+                });
+            }
+            else if(sectionName.equals("Core Temperature")){
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 5),
+                        new DataPoint(1, 4),
+                        new DataPoint(2, 3),
+                        new DataPoint(3, 2),
+                        new DataPoint(4, 1)
+                });
+            }
+            else if(sectionName.equals("Ambient Temperature")){
+                series = new LineGraphSeries<>(new DataPoint[]{
+                        new DataPoint(0, 1),
+                        new DataPoint(1, 1),
+                        new DataPoint(2, 5),
+                        new DataPoint(3, 1),
+                        new DataPoint(4, 1)
+                });
+            }
+
+            graph.addSeries(series);
+
+
+        }
+
     }
 
     /**

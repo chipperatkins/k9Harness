@@ -2,12 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.chipperatkins.k_9harness">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".DogApplication"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -19,15 +26,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:label="LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!--<service
             android:name=".BluetoothListenerService"
             android:exported="false" />
 -->
-        <activity android:name=".DeviceListActivity"></activity>
+        <activity android:name=".DeviceListActivity"/>
         <service
             android:name=".DbUpdateService"
+            android:exported="false" />
+        <service
+            android:name=".DataTestDriver"
             android:exported="false" />
 
         <activity
@@ -36,7 +48,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings"/>
     </application>
 
 </manifest>

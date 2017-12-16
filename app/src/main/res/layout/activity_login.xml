@@ -5,7 +5,7 @@
     android:orientation="vertical"
     >
     <FrameLayout
-        android:id="@+id/sample_content_fragment"
+        android:id="@+id/login_fragment"
         android:layout_width="0px"
         android:layout_height="0px" />
 
@@ -15,11 +15,25 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         />
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_add_dog"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add new dog"
+            />
 
-    <Button
-        android:id="@+id/button_continue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Continue"
-        />
+        <Button
+            android:id="@+id/button_continue"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Continue" />
+    </LinearLayout>
 </LinearLayout>
